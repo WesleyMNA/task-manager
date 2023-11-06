@@ -38,6 +38,6 @@ public final class JwtService {
                 .build();
         String jwt = encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
         response.setJwt(jwt);
-        response.setTipo("bearer");
+        response.setType("bearer");
     }
 }
