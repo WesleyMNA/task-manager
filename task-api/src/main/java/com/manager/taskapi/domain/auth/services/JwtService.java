@@ -30,7 +30,7 @@ public final class JwtService {
         UserJwt userJwt = mapper.map(client, UserJwt.class);
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("Fotosensores")
+                .issuer("Task Manager API")
                 .issuedAt(now)
                 .expiresAt(expiration)
                 .subject(String.valueOf(client.getId()))

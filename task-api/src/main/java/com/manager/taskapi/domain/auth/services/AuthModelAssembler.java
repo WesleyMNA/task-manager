@@ -2,14 +2,14 @@ package com.manager.taskapi.domain.auth.services;
 
 
 import com.manager.taskapi.domain.auth.dtos.AuthResponse;
-import com.manager.taskapi.domain.user.UserController;
-import com.manager.taskapi.domain.user.dtos.UserQuery;
-import com.manager.taskapi.domain.user.dtos.requests.UserRequest;
 import com.manager.taskapi.domain.note.NoteController;
 import com.manager.taskapi.domain.note.dtos.NoteRequest;
 import com.manager.taskapi.domain.task.TaskController;
 import com.manager.taskapi.domain.task.dtos.TaskQuery;
 import com.manager.taskapi.domain.task.dtos.TaskRequest;
+import com.manager.taskapi.domain.user.UserController;
+import com.manager.taskapi.domain.user.dtos.UserQuery;
+import com.manager.taskapi.domain.user.dtos.requests.UserRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.server.RepresentationModelAssembler;

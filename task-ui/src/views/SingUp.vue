@@ -1,14 +1,15 @@
 <template>
-    <form @submit.prevent="login">
+    <form @submit.prevent="singUp">
+        <input type="text" name="name" v-model="name" placeholder="Name" />
         <input type="text" name="email" v-model="email" placeholder="Email" />
         <input type="password" name="password" v-model="password" placeholder="Password" />
-        <button type="submit">Sing In</button>
+        <input type="password" name="confirm-password" v-model="confirmPassword" placeholder="Confirm Password" />
+        <button type="submit">Sing Up</button>
     </form>
-    <button @click="goToSingUp">Sing Up</button>
+    <button @click="goToLogin">Already have an account?</button>
 </template>
 
 <script lang="ts">
-import { authStore } from "@/stores/auth";
 import { defineComponent, ref } from "vue";
 import api from "@/services/api";
 import { IErrorResponse } from "@/interfaces/IErrorResponse";
@@ -22,16 +23,13 @@ import {
 export default defineComponent({
     name: "LoginView",
     setup() {
-        const auth = authStore();
-        const loginUrl = ref();
-        const refreshUrl = ref();
+        const singUpUrl = ref();
         api
             .get('/')
             .then((response) => {
                 const links: Array<Record<string, string>> = response.data.links;
-                loginUrl.value = links.find((l) => l['rel'] == 'login')!.href;
-                refreshUrl.value = links.find(
-                    (l) => l['rel'] == 'refresh-token'
+                singUpUrl.value = links.find(
+                    (l) => l['rel'] == 'register'
                 )!.href;
             })
             .catch((error) => {
@@ -42,29 +40,30 @@ export default defineComponent({
                 );
             });
         return {
-            auth,
-            loginUrl,
-            refreshUrl,
+            singUpUrl
         };
     },
     data() {
         return {
-            email: 'user@email.com',
-            password: '12345',
+            name: "Test",
+            email: "test@email.com",
+            password: "12345",
+            confirmPassword: "12345",
         };
     },
     methods: {
-        login() {
+        singUp() {
             notificateLoading('loding...');
             api
-                .post(this.loginUrl, {
+                .post(this.singUpUrl, {
+                    name: this.name,
                     email: this.email,
                     password: this.password,
+                    confirmPassword: this.confirmPassword,
                 })
-                .then((response) => {
-                    this.auth.login(response.data);
-                    notificate('Login successfully', NotificationType.SUCCESS);
-                    this.$router.push('/');
+                .then(() => {
+                    notificate('Account registered successfully', NotificationType.SUCCESS);
+                    this.goToLogin();
                 })
                 .catch((error) => {
                     const errorResponse: IErrorResponse = error.response.data;
@@ -74,8 +73,8 @@ export default defineComponent({
                     );
                 });
         },
-        goToSingUp() {
-            this.$router.push('/sing-up');
+        goToLogin() {
+            this.$router.push('/login');
         }
     },
 });
