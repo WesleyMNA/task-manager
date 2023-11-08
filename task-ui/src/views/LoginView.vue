@@ -8,29 +8,31 @@
 </template>
 
 <script lang="ts">
-import { authStore } from "@/stores/auth";
-import { defineComponent, ref } from "vue";
-import api from "@/services/api";
-import { IErrorResponse } from "@/interfaces/IErrorResponse";
+import { authStore } from '@/stores/auth';
+import { linksStore } from '@/stores/links';
+import { defineComponent, ref } from 'vue';
+import api from '@/services/api';
+import { IErrorResponse } from '@/interfaces/IErrorResponse';
 import {
     notificateLoading,
     notificateAndWaitConfirmation,
     NotificationType,
     notificate,
-} from "@/services/notification";
+} from '@/services/notification';
 
 export default defineComponent({
-    name: "LoginView",
+    name: 'LoginView',
     setup() {
         const auth = authStore();
-        const loginUrl = ref();
-        const refreshUrl = ref();
+        const links = linksStore();
+        const loginLink = ref();
+        const refreshLink = ref();
         api
             .get('/')
             .then((response) => {
                 const links: Array<Record<string, string>> = response.data.links;
-                loginUrl.value = links.find((l) => l['rel'] == 'login')!.href;
-                refreshUrl.value = links.find(
+                loginLink.value = links.find((l) => l['rel'] == 'login')!.href;
+                refreshLink.value = links.find(
                     (l) => l['rel'] == 'refresh-token'
                 )!.href;
             })
@@ -43,8 +45,9 @@ export default defineComponent({
             });
         return {
             auth,
-            loginUrl,
-            refreshUrl,
+            links,
+            loginLink,
+            refreshLink,
         };
     },
     data() {
@@ -57,14 +60,15 @@ export default defineComponent({
         login() {
             notificateLoading('loding...');
             api
-                .post(this.loginUrl, {
+                .post(this.loginLink, {
                     email: this.email,
                     password: this.password,
                 })
                 .then((response) => {
                     this.auth.login(response.data);
+                    this.links.setLoginLinks(response.data.links)
                     notificate('Login successfully', NotificationType.SUCCESS);
-                    this.$router.push('/');
+                    this.$router.push('/tasks');
                 })
                 .catch((error) => {
                     const errorResponse: IErrorResponse = error.response.data;

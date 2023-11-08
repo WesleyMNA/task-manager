@@ -10,18 +10,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import api from "@/services/api";
-import { IErrorResponse } from "@/interfaces/IErrorResponse";
+import { defineComponent, ref } from 'vue';
+import api from '@/services/api';
+import { IErrorResponse } from '@/interfaces/IErrorResponse';
 import {
     notificateLoading,
     notificateAndWaitConfirmation,
     NotificationType,
     notificate,
-} from "@/services/notification";
+} from '@/services/notification';
 
 export default defineComponent({
-    name: "LoginView",
+    name: 'SingUpView',
     setup() {
         const singUpUrl = ref();
         api
@@ -45,10 +45,10 @@ export default defineComponent({
     },
     data() {
         return {
-            name: "Test",
-            email: "test@email.com",
-            password: "12345",
-            confirmPassword: "12345",
+            name: 'Test',
+            email: 'test@email.com',
+            password: '12345',
+            confirmPassword: '12345',
         };
     },
     methods: {
