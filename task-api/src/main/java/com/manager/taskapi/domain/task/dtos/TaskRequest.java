@@ -23,5 +23,4 @@ public class TaskRequest {
     private TaskStatus status;
     private LocalDate initialDate;
     private LocalDate finalDate;
-    private Long clientId;
 }

@@ -52,7 +52,7 @@ public class TaskService {
 
     public TaskResponse create(TaskRequest request) {
         Task task = mapper.map(request, Task.class);
-        User user = validateClientId(request.getClientId());
+        User user = getCurrentUser();
         task.setUser(user);
         taskRepository.save(task);
         return taskAssembler.toModel(task);
@@ -60,7 +60,7 @@ public class TaskService {
 
     public void update(Long id, TaskRequest request) {
         Task task = validateId(id);
-        User user = validateClientId(request.getClientId());
+        User user = getCurrentUser();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setStatus(request.getStatus());
@@ -69,6 +69,13 @@ public class TaskService {
         task.setFinalDate(request.getFinalDate());
         task.setUser(user);
         taskRepository.save(task);
+    }
+
+    private User getCurrentUser() {
+        UserJwt currentUser = authHelper.getCurrentUser();
+        return userRepository
+                .findById(currentUser.getId())
+                .orElseThrow(() -> new NotFoundException("user not found"));
     }
 
     public void delete(Long id) {
@@ -82,9 +89,4 @@ public class TaskService {
                 .orElseThrow(() -> new NotFoundException("task not found"));
     }
 
-    private User validateClientId(Long userId) {
-        return userRepository
-                .findById(userId)
-                .orElseThrow(() -> new NotFoundException("user not found"));
-    }
 }

@@ -26,13 +26,11 @@ public class AuthModelAssembler implements RepresentationModelAssembler<AuthResp
     public @NotNull AuthResponse toModel(@NotNull AuthResponse response) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance();
         // ClientController
-        response.add(linkTo(methodOn(UserController.class).findAll(new UserQuery(null, null), PageRequest.of(0, 20))).withRel("find-clients"));
-        response.add(linkTo(methodOn(UserController.class).create(new UserRequest(), uriComponentsBuilder)).withRel("create-client"));
+        response.add(linkTo(methodOn(UserController.class).findAll(new UserQuery(null, null), PageRequest.of(0, 20))).withRel("clients"));
         // TaskController
-        response.add(linkTo(methodOn(TaskController.class).findAll(new TaskQuery(null, null, null), PageRequest.of(0, 20))).withRel("find-tasks"));
-        response.add(linkTo(methodOn(TaskController.class).create(new TaskRequest(), uriComponentsBuilder)).withRel("create-task"));
+        response.add(linkTo(methodOn(TaskController.class).findAll(new TaskQuery(null, null, null), PageRequest.of(0, 20))).withRel("tasks"));
         // NoteController
-        response.add(linkTo(methodOn(NoteController.class).create(new NoteRequest(), uriComponentsBuilder)).withRel("create-note"));
+        response.add(linkTo(methodOn(NoteController.class).create(new NoteRequest(), uriComponentsBuilder)).withRel("notes"));
         return response;
     }
 }
