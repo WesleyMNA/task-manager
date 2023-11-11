@@ -1,6 +1,9 @@
 import moment from 'moment'
 
-export function toISODateFormat(date: Array<any> | Date | string): string {
+export function toISODateFormat(date: Array<any> | Date | string | null): string | null {
+    if (date === null)
+        return null;
+
     if (date instanceof Date || date instanceof String)
         return moment(date).format('YYYY-MM-DD');
 
@@ -29,11 +32,11 @@ export function toISODateFormat(date: Array<any> | Date | string): string {
     )).format('YYYY-MM-DDTHH:mm:ssZ');
 }
 
-export function toBrDateFormat(date: string | Date) {
+export function toHumanDateFormat(date: string | Date) {
     return moment(date).format('DD/MM/YYYY');
 }
 
-export function toISODatetimeFormat(date: Array<any> | Date | string | null): string | null{
+export function toISODatetimeFormat(date: Array<any> | Date | string | null): string | null {
     if (date === null)
         return null;
 
@@ -56,6 +59,6 @@ export function toISODatetimeFormat(date: Array<any> | Date | string | null): st
     )).format('YYYY-MM-DDTHH:mm:ss');
 }
 
-export function toBrDatetimeFormat(date: string | Date | null): string {
+export function toHumanDatetimeFormat(date: string | Date | null): string {
     return moment(date).format('DD/MM/YYYY HH:mm:ss');
 }
