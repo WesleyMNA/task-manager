@@ -40,8 +40,8 @@ public class UserService {
     public PagedModel<UserResponse> findAll(UserQuery query, Pageable pageable) {
         var specBuild = new UserSpecification();
         Specification<User> spec = Specification.where(
-                specBuild.nameLikeIfNotNull(query.name())
-                        .and(specBuild.emailLikeIfNotNull(query.email()))
+                specBuild.nameLikeIfNotNull(query.getName())
+                        .and(specBuild.emailLikeIfNotNull(query.getEmail()))
         );
         Page<User> clients = repository.findAll(spec, pageable);
         return pagedAssembler.toModel(clients, assembler);

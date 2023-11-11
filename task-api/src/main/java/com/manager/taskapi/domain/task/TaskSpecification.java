@@ -10,7 +10,7 @@ import javax.persistence.criteria.Join;
 public class TaskSpecification {
 
     public Specification<Task> titleLikeIfNotNull(String title) {
-        return title != null ? (root, query, builder) -> builder.like(root.get("title"), title) : alwaysTrue();
+        return title != null ? (root, query, builder) -> builder.like(builder.lower(root.get("title")), title) : alwaysTrue();
     }
 
     public Specification<Task> priorityEqualsIfNotNull(TaskPriority priority) {

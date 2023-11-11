@@ -36,9 +36,9 @@ public class TaskService {
         UserJwt currentUser = authHelper.getCurrentUser();
         var specBuild = new TaskSpecification();
         Specification<Task> spec = Specification.where(
-                specBuild.titleLikeIfNotNull(query.title())
-                        .and(specBuild.priorityEqualsIfNotNull(query.priority())
-                                .and(specBuild.statusEqualsIfNotNull(query.status()))
+                specBuild.titleLikeIfNotNull(query.getTitle())
+                        .and(specBuild.priorityEqualsIfNotNull(query.getPriority())
+                                .and(specBuild.statusEqualsIfNotNull(query.getStatus()))
                                 .and(specBuild.userRegisteredInTask(currentUser.getId())))
         );
         Page<Task> tasks = taskRepository.findAll(spec, pageable);
