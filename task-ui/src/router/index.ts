@@ -4,16 +4,14 @@ import { authStore } from "@/stores/auth";
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        name: 'app',
-        component: () => import('@/App.vue'),
-        meta: {
-            auth: true,
+        redirect: {
+            name: 'tasks'
         },
     },
     {
         path: '/tasks',
         name: 'tasks',
-        component: () => import('@/views/TaskView.vue'),
+        component: () => import('@/views/task/TaskView.vue'),
         meta: {
             auth: true,
         },

@@ -32,9 +32,7 @@ export default defineComponent({
             .then((response) => {
                 const links: Array<Record<string, string>> = response.data.links;
                 loginLink.value = links.find((l) => l['rel'] == 'login')!.href;
-                refreshLink.value = links.find(
-                    (l) => l['rel'] == 'refresh-token'
-                )!.href;
+                refreshLink.value = links.find((l) => l['rel'] == 'refresh-token')!.href;
             })
             .catch((error) => {
                 const errorResponse: IErrorResponse = error.response.data;
