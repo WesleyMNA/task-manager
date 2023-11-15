@@ -10,17 +10,30 @@
             <TaskForm v-if="isFormOpen" @cancelForm="closeForm" @add="addTask" />
         </div>
 
-        <ul v-for="task in tasks" :key="task.id">
-            <li>
-                <div>
-                    <h3>{{ task.title }}</h3>
-                    <p>{{ task.status }}</p>
-                    <p>{{ task.priority }}</p>
-                    <p>{{ task.initialDate }}</p>
-                </div>
-            </li>
-
-        </ul>
+        <div>
+            <h2>To Do</h2>
+            <ul v-for="task in tasksToDo" :key="task.id">
+                <TaskCard :task="task" />
+            </ul>
+        </div>
+        <div>
+            <h2>Doing</h2>
+            <ul v-for="task in tasksDoing" :key="task.id">
+                <TaskCard :task="task" />
+            </ul>
+        </div>
+        <div>
+            <h2>Pending</h2>
+            <ul v-for="task in tasksPending" :key="task.id">
+                <TaskCard :task="task" />
+            </ul>
+        </div>
+        <div>
+            <h2>Finished</h2>
+            <ul v-for="task in tasksFinished" :key="task.id">
+                <TaskCard :task="task" />
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -40,11 +53,28 @@ import {
 import TaskForm from '@/views/task/components/TaskForm.vue'
 import arrayToJson from '@/utils/LinksHelper';
 import Page from '@/interfaces/Page'
+import { TaskStatus } from './enums';
+import TaskCard from './components/TaskCard.vue';
 
 export default defineComponent({
     name: 'TaskView',
     components: {
         TaskForm,
+        TaskCard
+    },
+    computed: {
+        tasksToDo(): Array<ITask> | undefined {
+            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.TO_DO);
+        },
+        tasksDoing(): Array<ITask> | undefined {
+            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.DOING);
+        },
+        tasksPending(): Array<ITask> | undefined {
+            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.PENDING);
+        },
+        tasksFinished(): Array<ITask> | undefined {
+            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.FINISHED);
+        }
     },
     data() {
         return {
