@@ -19,18 +19,22 @@ export const linksStore = defineStore('links', {
             this.links.clients = links.find((l) => l['rel'] == 'clients')!.href;
             this.links.tasks = links.find((l) => l['rel'] == 'tasks')!.href;
             this.links.notes = links.find((l) => l['rel'] == 'notes')!.href;
+            this.links.refresh = links.find((l) => l['rel'] == 'refresh-token')!.href;
             localStorage.setItem('links', JSON.stringify(this.links));
         },
     },
     getters: {
-        getClients(): string {
+        clients(): string {
             return this.links.clients;
         },
-        getTasks(): string {
+        tasks(): string {
             return this.links.tasks;
         },
-        gettNotes(): string {
+        notes(): string {
             return this.links.notes;
+        },
+        refresh(): string {
+            return this.links.refresh;
         },
     },
 });

@@ -1,8 +1,6 @@
 import {
-    notificateLoading,
     notificateAndWaitConfirmation,
     NotificationType,
-    notificate,
 } from '@/services/notification';
 import { IErrorResponse } from '@/interfaces/IErrorResponse';
 
@@ -13,11 +11,26 @@ type ErrorHandler = {
 export default () : ErrorHandler => {
 
     const handle = (error: any): void => {
-        const errorResponse: IErrorResponse = error.response.data;
-        notificateAndWaitConfirmation(
-            errorResponse.message,
-            NotificationType.ERROR
-        );
+        const response: IErrorResponse = error.response.data;
+
+        if (response.status === 400) {
+            let message;
+            let title = 'Erro';
+
+            if (response.errors) {
+                message = Object.entries(response.errors)
+                    .map(([key, value]) => `<br/>- <strong>${key}:</strong> ${value}`)
+                    .join('\n');
+                title = response.message;
+            } else
+                message = response.message;
+
+            notificateAndWaitConfirmation(
+                title,
+                message,
+                NotificationType.ERROR
+            );
+        }
     }
 
     return {

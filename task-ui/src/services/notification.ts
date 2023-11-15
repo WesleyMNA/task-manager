@@ -27,10 +27,12 @@ export function notificateLoading(title: string): void {
 
 export function notificateAndWaitConfirmation(
   title: string,
+  text: string,
   icone: SweetAlertIcon
 ): void {
   Swal.fire({
     title: title,
+    html: text,
     icon: icone,
   });
 }

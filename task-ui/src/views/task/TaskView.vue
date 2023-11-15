@@ -54,7 +54,7 @@ export default defineComponent({
     methods: {
         addTask(task: ITask) {
             api
-                .post(this.links.getTasks, task)
+                .post(this.links.tasks, task)
                 .then(() => {
                     notificate('Task added', NotificationType.SUCCESS);
                     this.closeForm();
@@ -91,7 +91,7 @@ export default defineComponent({
         } = {}
         ) => {
             api
-                .get(links.getTasks, { params: { 'page': pageNumber, 'size': size, [field]: filter } })
+                .get(links.tasks, { params: { 'page': pageNumber, 'size': size, [field]: filter } })
                 .then((response) => {
                     const tasksData: Array<ITaskResponse> = response.data.content;
                     tasks.value = tasksData.map((task) => ({

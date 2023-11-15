@@ -1,6 +1,7 @@
 package com.manager.taskapi.domain.auth.services;
 
 
+import com.manager.taskapi.domain.auth.AuthController;
 import com.manager.taskapi.domain.auth.dtos.AuthResponse;
 import com.manager.taskapi.domain.note.NoteController;
 import com.manager.taskapi.domain.note.dtos.NoteRequest;
@@ -25,6 +26,7 @@ public class AuthModelAssembler implements RepresentationModelAssembler<AuthResp
     @Override
     public @NotNull AuthResponse toModel(@NotNull AuthResponse response) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance();
+        response.add(linkTo(methodOn(AuthController.class).refresh(null)).withRel("refresh-token"));
         // ClientController
         response.add(linkTo(methodOn(UserController.class).findAll(new UserQuery(null, null), PageRequest.of(0, 20))).withRel("clients"));
         // TaskController

@@ -12,13 +12,12 @@ import { authStore } from '@/stores/auth';
 import { linksStore } from '@/stores/links';
 import { defineComponent, ref } from 'vue';
 import api from '@/services/api';
-import { IErrorResponse } from '@/interfaces/IErrorResponse';
 import {
     notificateLoading,
-    notificateAndWaitConfirmation,
     NotificationType,
     notificate,
 } from '@/services/notification';
+import useErrorHandler from '@/hooks/ErrorHandler';
 
 export default defineComponent({
     name: 'LoginView',
@@ -32,20 +31,15 @@ export default defineComponent({
             .then((response) => {
                 const links: Array<Record<string, string>> = response.data.links;
                 loginLink.value = links.find((l) => l['rel'] == 'login')!.href;
-                refreshLink.value = links.find((l) => l['rel'] == 'refresh-token')!.href;
             })
-            .catch((error) => {
-                const errorResponse: IErrorResponse = error.response.data;
-                notificateAndWaitConfirmation(
-                    errorResponse.message,
-                    NotificationType.ERROR
-                );
-            });
+            .catch((error) => errorHandler.handle(error));
+        const errorHandler = useErrorHandler();
         return {
             auth,
             links,
             loginLink,
             refreshLink,
+            errorHandler
         };
     },
     data() {
@@ -68,13 +62,7 @@ export default defineComponent({
                     notificate('Login successfully', NotificationType.SUCCESS);
                     this.$router.push('/tasks');
                 })
-                .catch((error) => {
-                    const errorResponse: IErrorResponse = error.response.data;
-                    notificateAndWaitConfirmation(
-                        errorResponse.message,
-                        NotificationType.ERROR
-                    );
-                });
+                .catch((error) => this.errorHandler.handle(error));
         },
         goToSingUp() {
             this.$router.push('/sing-up');

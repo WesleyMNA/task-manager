@@ -24,7 +24,6 @@ public class RootEntryPointController {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance();
         RootEntryPointResponse response = new RootEntryPointResponse();
         response.add(linkTo(methodOn(AuthController.class).login(new LoginRequest(null, null))).withRel("login"));
-        response.add(linkTo(methodOn(AuthController.class).refresh(null)).withRel("refresh-token"));
         response.add(linkTo(methodOn(UserController.class).create(new UserRequest(), uriComponentsBuilder)).withRel("register"));
         return ResponseEntity.ok(response);
     }

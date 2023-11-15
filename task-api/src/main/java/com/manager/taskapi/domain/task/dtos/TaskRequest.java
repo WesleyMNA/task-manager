@@ -15,7 +15,6 @@ public class TaskRequest {
     @NotNull
     @NotBlank
     private String title;
-    @NotBlank
     private String description;
     @NotNull
     private TaskPriority priority;

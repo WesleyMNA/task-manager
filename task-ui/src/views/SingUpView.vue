@@ -12,13 +12,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import api from '@/services/api';
-import { IErrorResponse } from '@/interfaces/IErrorResponse';
 import {
     notificateLoading,
-    notificateAndWaitConfirmation,
     NotificationType,
     notificate,
 } from '@/services/notification';
+import useErrorHandler from '@/hooks/ErrorHandler';
 
 export default defineComponent({
     name: 'SingUpView',
@@ -32,15 +31,11 @@ export default defineComponent({
                     (l) => l['rel'] == 'register'
                 )!.href;
             })
-            .catch((error) => {
-                const errorResponse: IErrorResponse = error.response.data;
-                notificateAndWaitConfirmation(
-                    errorResponse.message,
-                    NotificationType.ERROR
-                );
-            });
+            .catch((error) => errorHandler.handle(error));
+        const errorHandler = useErrorHandler();
         return {
-            singUpUrl
+            singUpUrl,
+            errorHandler
         };
     },
     data() {
@@ -65,13 +60,7 @@ export default defineComponent({
                     notificate('Account registered successfully', NotificationType.SUCCESS);
                     this.goToLogin();
                 })
-                .catch((error) => {
-                    const errorResponse: IErrorResponse = error.response.data;
-                    notificateAndWaitConfirmation(
-                        errorResponse.message,
-                        NotificationType.ERROR
-                    );
-                });
+                .catch((error) => this.errorHandler.handle(error));
         },
         goToLogin() {
             this.$router.push('/login');
