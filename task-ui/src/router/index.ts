@@ -17,6 +17,15 @@ const routes: Array<RouteRecordRaw> = [
         },
     },
     {
+        path: '/tasks/:url',
+        name: 'task-info',
+        component: () => import('@/views/task/TaskInfoView.vue'),
+        props: true,
+        meta: {
+            auth: true,
+        },
+    },
+    {
         path: '/login',
         name: 'login',
         component: () => import('@/views/LoginView.vue')

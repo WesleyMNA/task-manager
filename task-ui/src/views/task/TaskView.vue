@@ -13,25 +13,25 @@
         <div>
             <h2>To Do</h2>
             <ul v-for="task in tasksToDo" :key="task.id">
-                <TaskCard :task="task" />
+                <TaskCard @click="openInfoViewer(task)" :task="task" />
             </ul>
         </div>
         <div>
             <h2>Doing</h2>
             <ul v-for="task in tasksDoing" :key="task.id">
-                <TaskCard :task="task" />
+                <TaskCard @click="openInfoViewer(task)" :task="task" />
             </ul>
         </div>
         <div>
             <h2>Pending</h2>
             <ul v-for="task in tasksPending" :key="task.id">
-                <TaskCard :task="task" />
+                <TaskCard @click="openInfoViewer(task)" :task="task" />
             </ul>
         </div>
         <div>
             <h2>Finished</h2>
             <ul v-for="task in tasksFinished" :key="task.id">
-                <TaskCard :task="task" />
+                <TaskCard @click="openInfoViewer(task)" :task="task" />
             </ul>
         </div>
     </div>
@@ -64,16 +64,16 @@ export default defineComponent({
     },
     computed: {
         tasksToDo(): Array<ITask> | undefined {
-            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.TO_DO);
+            return this.filterByStatus(TaskStatus.TO_DO);
         },
         tasksDoing(): Array<ITask> | undefined {
-            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.DOING);
+            return this.filterByStatus(TaskStatus.DOING);
         },
         tasksPending(): Array<ITask> | undefined {
-            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.PENDING);
+            return this.filterByStatus(TaskStatus.PENDING);
         },
         tasksFinished(): Array<ITask> | undefined {
-            return this.tasks?.filter((task: ITask) => task.status == TaskStatus.FINISHED);
+            return this.filterByStatus(TaskStatus.FINISHED);
         }
     },
     data() {
@@ -95,9 +95,15 @@ export default defineComponent({
         closeForm() {
             this.isFormOpen = false;
         },
+        filterByStatus(status: string): Array<ITask> | undefined {
+            return this.tasks?.filter((task: ITask) => task.status == status);
+        },
         openAddForm() {
             this.isFormOpen = true;
-        }
+        },
+        openInfoViewer(task: ITask) {
+            this.$router.push({ name: 'task-info', params: { url: task.links['detail-task'] } });
+        },
     },
     mounted() {
         this.searchTasks();

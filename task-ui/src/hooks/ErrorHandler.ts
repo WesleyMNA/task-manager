@@ -11,6 +11,7 @@ type ErrorHandler = {
 export default () : ErrorHandler => {
 
     const handle = (error: any): void => {
+        console.log(error)
         const response: IErrorResponse = error.response.data;
 
         if (response.status === 400) {
