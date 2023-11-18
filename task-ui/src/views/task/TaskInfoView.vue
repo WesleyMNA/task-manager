@@ -4,33 +4,45 @@
             <button type="button" @click="goToTasks">Go to tasks</button>
         </header>
         <form @submit.prevent="editTask">
-            <button v-if="!editMode" type="button" @click="editMode = !editMode">Edit</button>
-            <input v-if="editMode" type="text" v-model="title" />
+            <button v-if="!editTaskMode" type="button" @click="editTaskMode = !editTaskMode">Edit</button>
+            <input v-if="editTaskMode" type="text" v-model="title" />
             <h3 v-else>{{ title }}</h3>
-            <input v-if="editMode" type="text" v-model="description" />
+            <input v-if="editTaskMode" type="text" v-model="description" />
             <p v-else>{{ description }}</p>
-            <input v-if="editMode" type="text" v-model="status" />
+            <input v-if="editTaskMode" type="text" v-model="status" />
             <p v-else>{{ status }}</p>
-            <input v-if="editMode" type="text" v-model="priority" />
+            <input v-if="editTaskMode" type="text" v-model="priority" />
             <p v-else>{{ priority }}</p>
-            <input v-if="editMode" type="text" v-model="initialDate" />
+            <input v-if="editTaskMode" type="text" v-model="initialDate" />
             <p v-else>{{ initialDate }}</p>
-            <input v-if="editMode" type="text" v-model="finalDate" />
+            <input v-if="editTaskMode" type="text" v-model="finalDate" />
             <p v-else>{{ finalDate }}</p>
-            <button type="submit">Edit</button>
+            <button v-if="editTaskMode" type="submit">Edit</button>
+        </form>
+
+        <h3>Notes</h3>
+        <div v-for="note in notes" :key="note.id">
+            <p>{{ toHumanDatetimeFormat(note.dateHour) }}</p>
+            <p>{{ note.text }}</p>
+        </div>
+        <form  @submit.prevent="addNote()">
+            <input type="text" v-model="noteText" />
+            <button type="submit">Add note</button>
         </form>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { linksStore } from '@/stores/links';
 import api from '@/services/api';
 import ITask from '@/views/task/interfaces/ITask';
 import ITaskResponse from '@/views/task/interfaces/ITaskResponse';
-import { toISODateFormat } from '@/utils/DateHelper';
+import { toISODateFormat, toISODatetimeFormat, toHumanDatetimeFormat } from '@/utils/DateHelper';
 import useErrorHandler from '@/hooks/ErrorHandler';
 import arrayToJson from '@/utils/LinksHelper';
 import INote from './interfaces/INote';
+import INoteRequest from './interfaces/INoteRequest';
 import {
     NotificationType,
     notificate,
@@ -100,8 +112,8 @@ export default defineComponent({
             },
         },
         notes: {
-            get(): INote[] | null {
-                return this.task?.notes || null;
+            get(): INote[] {
+                return this.task?.notes || [];
             },
             set(value: INote): void {
                 if (this.task)
@@ -111,10 +123,28 @@ export default defineComponent({
     },
     data() {
         return {
-            editMode: false
+            editTaskMode: false,
+            noteText: ''
         }
     },
     methods: {
+        addNote() {
+            console.log(this.noteText);
+            if (this.task === undefined)
+                throw new Error();
+            
+            const note: INoteRequest = {
+                taskId: this.task?.id,
+                text: this.noteText
+            }
+            api
+                .post(this.links.notes, note)
+                .then(() => {
+                    notificate('Note added', NotificationType.SUCCESS);
+                    this.searchTask();
+                })
+                .catch((error) => this.errorHandler.handle(error));
+        },
         editTask() {
             const link = this.task?.links['update-task']
 
@@ -126,7 +156,7 @@ export default defineComponent({
                 .then(() => {
                     notificate('Task updated', NotificationType.SUCCESS);
                     this.searchTask();
-                    this.editMode = false;
+                    this.editTaskMode = false;
                 })
                 .catch((error) => this.errorHandler.handle(error));
         },
@@ -146,6 +176,7 @@ export default defineComponent({
     setup(props) {
         const errorHandler = useErrorHandler();
         const task = ref<ITask>();
+            const links = linksStore();
         const searchTask = () => {
             api
                 .get(props.url)
@@ -156,14 +187,22 @@ export default defineComponent({
                         initialDate: toISODateFormat(taskData.initialDate),
                         finalDate: toISODateFormat(taskData.finalDate),
                         links: arrayToJson(taskData.links),
+                        notes: taskData.notes?.map(note => ({
+                            id: note.id,
+                            text: note.text,
+                            dateHour: toISODatetimeFormat(note.dateHour) || '',
+                            links: arrayToJson(note.links),
+                        })) || []
                     };
                 })
                 .catch((error) => errorHandler.handle(error));
         };
         return {
+            links,
             errorHandler,
             task,
-            searchTask
+            searchTask,
+            toHumanDatetimeFormat
         };
     }
 })

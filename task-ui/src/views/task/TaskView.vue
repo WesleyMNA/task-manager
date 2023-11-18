@@ -134,6 +134,7 @@ export default defineComponent({
                         ...task,
                         initialDate: toISODateFormat(task.initialDate),
                         links: arrayToJson(task.links),
+                        notes: []
                     }));
                     page.value = response.data.page;
                 })

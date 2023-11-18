@@ -1,4 +1,4 @@
-import INote from './INote';
+import INoteResponse from './INoteResponse';
 
 export default interface ITaskResponse {
     id: number,
@@ -9,5 +9,5 @@ export default interface ITaskResponse {
     finalDate: string | null,
     description: string | null,
     links: Array<Record<string, string>>,
-    notes: Array<INote> | null,
+    notes: Array<INoteResponse> | null,
 };
