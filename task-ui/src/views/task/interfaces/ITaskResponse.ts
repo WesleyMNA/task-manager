@@ -9,5 +9,5 @@ export default interface ITaskResponse {
     finalDate: string | null,
     description: string | null,
     links: Array<Record<string, string>>,
-    notes: INote | null,
+    notes: Array<INote> | null,
 };
