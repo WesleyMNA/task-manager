@@ -1,13 +1,23 @@
 <template>
-    <form @submit.prevent="login">
-        <input type="text" name="email" v-model="email" placeholder="Email" />
-        <input type="password" name="password" v-model="password" placeholder="Password" />
-        <button type="submit">Sing In</button>
-    </form>
-    <button @click="goToSingUp">Sing Up</button>
+    <div id="login-card">
+        <header>
+            <h1>Task Manager</h1>
+            <img src="@/assets/logo.png" />
+        </header>
+        <form id="login-form" @submit.prevent="login">
+            <input class="input-field" type="text" name="email" v-model="email" placeholder="Email" />
+            <input class="input-field" type="password" name="password" v-model="password" placeholder="Password" />
+
+            <div>
+                <button class="button green" type="submit">Sing In</button>
+                <button class="button blue" @click="goToSingUp">Sing Up</button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script lang="ts">
+import './LoginView.scss';
 import { authStore } from '@/stores/auth';
 import { linksStore } from '@/stores/links';
 import { defineComponent, ref } from 'vue';
