@@ -1,33 +1,35 @@
 <template>
     <div>
-        <div>
-            <button type="button" @click="openAddForm">Add</button>
+        <div id="add-button">
+            <button class="button green" type="button" @click="openAddForm">Add</button>
             <TaskForm v-if="isFormOpen" @cancelForm="closeForm" @add="addTask" />
         </div>
 
-        <div>
-            <h2>To Do</h2>
-            <ul v-for="task in tasksToDo" :key="task.id">
-                <TaskCard @click="openInfoViewer(task)" :task="task" />
-            </ul>
-        </div>
-        <div>
-            <h2>Doing</h2>
-            <ul v-for="task in tasksDoing" :key="task.id">
-                <TaskCard @click="openInfoViewer(task)" :task="task" />
-            </ul>
-        </div>
-        <div>
-            <h2>Pending</h2>
-            <ul v-for="task in tasksPending" :key="task.id">
-                <TaskCard @click="openInfoViewer(task)" :task="task" />
-            </ul>
-        </div>
-        <div>
-            <h2>Finished</h2>
-            <ul v-for="task in tasksFinished" :key="task.id">
-                <TaskCard @click="openInfoViewer(task)" :task="task" />
-            </ul>
+        <div id="tasks-card">
+            <div class="tasks-list">
+                <h2>To Do</h2>
+                <ul v-for="task in tasksToDo" :key="task.id">
+                    <TaskCard @click="openInfoViewer(task)" :task="task" />
+                </ul>
+            </div>
+            <div class="tasks-list">
+                <h2>Doing</h2>
+                <ul v-for="task in tasksDoing" :key="task.id">
+                    <TaskCard @click="openInfoViewer(task)" :task="task" />
+                </ul>
+            </div>
+            <div class="tasks-list">
+                <h2>Pending</h2>
+                <ul v-for="task in tasksPending" :key="task.id">
+                    <TaskCard @click="openInfoViewer(task)" :task="task" />
+                </ul>
+            </div>
+            <div class="tasks-list">
+                <h2>Finished</h2>
+                <ul v-for="task in tasksFinished" :key="task.id">
+                    <TaskCard @click="openInfoViewer(task)" :task="task" />
+                </ul>
+            </div>
         </div>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <header>
-            <h1>Task Manager</h1>
+            <h1>Welcome to Tasks Manager</h1>
             <img src="@/assets/logo.png" />
         </header>
         <form class="form" @submit.prevent="login">

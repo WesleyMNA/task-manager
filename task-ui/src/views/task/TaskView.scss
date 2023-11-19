@@ -1,0 +1,28 @@
+#add-button {
+    position: absolute;
+    left: 90%;
+    width: 100px;
+
+    button {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+#tasks-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tasks-list {
+    margin-top: 3.3rem;
+    border: 2px solid black;
+
+    h2 {
+        font-weight: bold;
+        text-align: center;
+        background-color: black;
+        color: white;
+        padding: 5px;
+    }
+}

@@ -2,7 +2,7 @@
     <nav id="top-bar">
         <div>
             <img src="@/assets/logo.png" />
-            <h1>Tasks</h1>
+            <h1>Tasks Manager</h1>
         </div>
         <router-link :to="{ name: 'login' }" @click="auth.logout()">
             <button class="button red" type="button">Log Out</button>
