@@ -1,10 +1,10 @@
 <template>
-    <div id="login-card">
+    <div class="card">
         <header>
             <h1>Task Manager</h1>
             <img src="@/assets/logo.png" />
         </header>
-        <form id="login-form" @submit.prevent="login">
+        <form class="form" @submit.prevent="login">
             <input class="input-field" type="text" name="email" v-model="email" placeholder="Email" />
             <input class="input-field" type="password" name="password" v-model="password" placeholder="Password" />
 

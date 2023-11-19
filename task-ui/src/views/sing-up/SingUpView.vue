@@ -1,15 +1,24 @@
 <template>
-    <form @submit.prevent="singUp">
-        <input type="text" name="name" v-model="name" placeholder="Name" />
-        <input type="text" name="email" v-model="email" placeholder="Email" />
-        <input type="password" name="password" v-model="password" placeholder="Password" />
-        <input type="password" name="confirm-password" v-model="confirmPassword" placeholder="Confirm Password" />
-        <button type="submit">Sing Up</button>
-    </form>
-    <button @click="goToLogin">Already have an account?</button>
+    <div class="card">
+        <header>
+            <h1>Create an account</h1>
+            <img src="@/assets/logo.png" />
+        </header>
+        <form class="form" @submit.prevent="singUp">
+            <input class="input-field" type="text" name="name" v-model="name" placeholder="Name" />
+            <input class="input-field" type="text" name="email" v-model="email" placeholder="Email" />
+            <input class="input-field" type="password" name="password" v-model="password" placeholder="Password" />
+            <input class="input-field" type="password" name="confirm-password" v-model="confirmPassword" placeholder="Confirm Password" />
+            <div>
+                <button class="button green" type="submit">Sing Up</button>
+                <button class="button blue" @click="goToLogin">Already have an account?</button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script lang="ts">
+import './SingUpView.scss';
 import { defineComponent, ref } from 'vue';
 import api from '@/services/api';
 import {
@@ -40,10 +49,10 @@ export default defineComponent({
     },
     data() {
         return {
-            name: 'Test',
-            email: 'test@email.com',
-            password: '12345',
-            confirmPassword: '12345',
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
         };
     },
     methods: {
