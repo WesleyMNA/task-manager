@@ -1,10 +1,5 @@
 <template>
     <div>
-        <nav>
-            <router-link :to="{ name: 'login' }" @click="auth.logout()">Log Out</router-link>
-            <h1>Tasks</h1>
-        </nav>
-
         <div>
             <button type="button" @click="openAddForm">Add</button>
             <TaskForm v-if="isFormOpen" @cancelForm="closeForm" @add="addTask" />
@@ -38,6 +33,7 @@
 </template>
 
 <script lang="ts">
+import './TaskView.scss';
 import { defineComponent, ref } from 'vue';
 import { linksStore } from '@/stores/links';
 import { authStore } from '@/stores/auth';
@@ -56,11 +52,13 @@ import Page from '@/interfaces/Page'
 import { TaskStatus } from './enums';
 import TaskCard from './components/TaskCard.vue';
 
+
 export default defineComponent({
     name: 'TaskView',
     components: {
         TaskForm,
-        TaskCard
+        TaskCard,
+
     },
     computed: {
         tasksToDo(): Array<ITask> | undefined {
