@@ -18,6 +18,7 @@
             <input v-if="editTaskMode" type="text" v-model="finalDate" />
             <p v-else>{{ finalDate }}</p>
             <button v-if="editTaskMode" type="submit">Edit</button>
+            <button v-if="editTaskMode" type="button" @click="editTaskMode = !editTaskMode">Cancel</button>
         </form>
 
         <h3>Notes</h3>
@@ -25,7 +26,7 @@
             <p>{{ toHumanDatetimeFormat(note.dateHour) }}</p>
             <p>{{ note.text }}</p>
         </div>
-        <form  @submit.prevent="addNote()">
+        <form @submit.prevent="addNote()">
             <input type="text" v-model="noteText" />
             <button type="submit">Add note</button>
         </form>
@@ -129,10 +130,9 @@ export default defineComponent({
     },
     methods: {
         addNote() {
-            console.log(this.noteText);
             if (this.task === undefined)
                 throw new Error();
-            
+
             const note: INoteRequest = {
                 taskId: this.task?.id,
                 text: this.noteText
@@ -142,6 +142,7 @@ export default defineComponent({
                 .then(() => {
                     notificate('Note added', NotificationType.SUCCESS);
                     this.searchTask();
+                    this.noteText = '';
                 })
                 .catch((error) => this.errorHandler.handle(error));
         },
@@ -176,7 +177,7 @@ export default defineComponent({
     setup(props) {
         const errorHandler = useErrorHandler();
         const task = ref<ITask>();
-            const links = linksStore();
+        const links = linksStore();
         const searchTask = () => {
             api
                 .get(props.url)
