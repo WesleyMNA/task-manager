@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="add-button">
-            <button class="button green" type="button" @click="openAddForm">Add</button>
+            <button class="button" type="button" @click="openAddForm">Add</button>
             <TaskForm v-if="isFormOpen" @cancelForm="closeForm" @add="addTask" />
         </div>
 

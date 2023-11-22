@@ -10,7 +10,7 @@
 
             <div>
                 <button class="button green" type="submit">Sing In</button>
-                <button class="button blue" @click="goToSingUp">Sing Up</button>
+                <button class="button" @click="goToSingUp">Sing Up</button>
             </div>
         </form>
     </div>
