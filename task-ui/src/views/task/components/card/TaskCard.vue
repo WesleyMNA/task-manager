@@ -1,5 +1,5 @@
 <template>
-    <li>
+    <li id="card">
         <div>
             <h3>{{ task.title }}</h3>
             <p>{{ task.priority }}</p>
@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+import './TaskCard.scss';
 import { defineComponent } from 'vue';
 import ITask from '@/views/task/interfaces/ITask';
 

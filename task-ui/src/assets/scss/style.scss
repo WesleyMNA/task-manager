@@ -4,3 +4,20 @@
 @import './card';
 @import './form';
 @import './input';
+
+::-webkit-scrollbar {
+    width: .6rem;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px gray;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: gray;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: lighten($color: gray, $amount: 2);
+}

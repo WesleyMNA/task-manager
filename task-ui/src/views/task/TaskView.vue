@@ -5,30 +5,38 @@
             <TaskForm v-if="isFormOpen" @cancelForm="closeForm" @add="addTask" />
         </div>
 
-        <div id="tasks-card">
-            <div class="tasks-list">
+        <div id="tasks-board">
+            <div class="tasks-card">
                 <h2>To Do</h2>
-                <ul v-for="task in tasksToDo" :key="task.id">
-                    <TaskCard @click="openInfoViewer(task)" :task="task" />
-                </ul>
+                <div class="tasks-list">
+                    <ul v-for="task in tasksToDo" :key="task.id">
+                        <TaskCard @click="openInfoViewer(task)" :task="task" />
+                    </ul>
+                </div>
             </div>
-            <div class="tasks-list">
+            <div class="tasks-card">
                 <h2>Doing</h2>
-                <ul v-for="task in tasksDoing" :key="task.id">
-                    <TaskCard @click="openInfoViewer(task)" :task="task" />
-                </ul>
+                <div class="tasks-list">
+                    <ul v-for="task in tasksDoing" :key="task.id">
+                        <TaskCard @click="openInfoViewer(task)" :task="task" />
+                    </ul>
+                </div>
             </div>
-            <div class="tasks-list">
+            <div class="tasks-card">
                 <h2>Pending</h2>
-                <ul v-for="task in tasksPending" :key="task.id">
-                    <TaskCard @click="openInfoViewer(task)" :task="task" />
-                </ul>
+                <div class="tasks-list">
+                    <ul v-for="task in tasksPending" :key="task.id">
+                        <TaskCard @click="openInfoViewer(task)" :task="task" />
+                    </ul>
+                </div>
             </div>
-            <div class="tasks-list">
+            <div class="tasks-card">
                 <h2>Finished</h2>
-                <ul v-for="task in tasksFinished" :key="task.id">
-                    <TaskCard @click="openInfoViewer(task)" :task="task" />
-                </ul>
+                <div class="tasks-list">
+                    <ul v-for="task in tasksFinished" :key="task.id">
+                        <TaskCard @click="openInfoViewer(task)" :task="task" />
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -52,7 +60,7 @@ import TaskForm from '@/views/task/components/TaskForm.vue'
 import arrayToJson from '@/utils/LinksHelper';
 import Page from '@/interfaces/Page'
 import { TaskStatus } from './enums';
-import TaskCard from './components/TaskCard.vue';
+import TaskCard from './components/card/TaskCard.vue';
 
 
 export default defineComponent({

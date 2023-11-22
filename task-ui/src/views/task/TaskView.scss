@@ -9,20 +9,29 @@
     }
 }
 
-#tasks-card {
+#tasks-board {
     display: flex;
     justify-content: space-between;
+    padding: 3.3rem 2rem 1rem 2rem;
 }
 
-.tasks-list {
-    margin-top: 3.3rem;
+.tasks-card {
     border: 2px solid black;
+    width: 24%;
+    height: 70vh;
 
     h2 {
+        text-transform: uppercase;
         font-weight: bold;
         text-align: center;
         background-color: black;
         color: white;
         padding: 5px;
     }
+}
+
+.tasks-list {
+    overflow-y: auto;
+    width: 100%;
+    height: 92%;
 }
