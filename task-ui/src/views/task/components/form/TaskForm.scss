@@ -1,0 +1,11 @@
+#add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50vw;
+}
+
+#form-buttons {
+    display: flex;
+    justify-content: space-around;
+}

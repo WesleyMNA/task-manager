@@ -56,7 +56,7 @@ import {
     NotificationType,
     notificate,
 } from '@/services/notification';
-import TaskForm from '@/views/task/components/TaskForm.vue'
+import TaskForm from '@/views/task/components/form/TaskForm.vue'
 import arrayToJson from '@/utils/LinksHelper';
 import Page from '@/interfaces/Page'
 import { TaskStatus } from './enums';
