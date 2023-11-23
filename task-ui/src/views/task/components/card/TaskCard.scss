@@ -2,11 +2,11 @@
     border: 1px solid black;
     padding: 1rem;
     margin: 1rem;
-    background-color: rgb(204, 204, 204);
+    background-color: white;
     cursor: pointer;
 
     &:hover {
-        filter: brightness(0.8);
+        filter: brightness(0.7);
     }
 
     h3 {

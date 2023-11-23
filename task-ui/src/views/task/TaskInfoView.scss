@@ -10,6 +10,7 @@ header {
 #task-info {
     margin-left: 1rem;
     margin-right: 1rem;
+    background-color: rgb(224, 224, 224);
 
     div {
         padding: 1rem;
@@ -24,6 +25,7 @@ header {
     display: flex;
     flex-direction: column;
     text-align: center;
+    background-color: white;
 
     h3 {
         font-size: 1.5rem;
@@ -34,6 +36,7 @@ header {
 
 #notes {
     margin-top: 20px;
+    background-color: white;
 
     h3 {
         font-size: 1.5rem;

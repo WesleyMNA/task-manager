@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <header>
             <button type="button" @click="goToTasks">Go to tasks</button>
             <button v-if="!editTaskMode" type="button" @click="editTaskMode = !editTaskMode">Edit</button>
@@ -42,12 +42,12 @@
                         <label for="initialDate">Initial Date</label>
                         <input class="input-field" type="text" v-model="initialDate" name="initialDate" />
                     </div>
-                    <p v-else>Initial date: {{ initialDate }}</p>
+                    <p v-else>Initial date: {{ toHumanDateFormat(initialDate) }}</p>
                     <div class="input-group" v-if="editTaskMode">
                         <label for="finalDate">Final Date</label>
                         <input class="input-field" type="text" v-model="finalDate" name="finalDate" />
                     </div>
-                    <p v-else>Final date: {{ finalDate }}</p>
+                    <p v-else>Final date: {{ toHumanDateFormat(finalDate) }}</p>
                     <div class="form-buttons" v-if="editTaskMode">
                         <button type="submit">Edit</button>
                         <button type="button" @click="editTaskMode = !editTaskMode">Cancel</button>
@@ -78,7 +78,7 @@ import { linksStore } from '@/stores/links';
 import api from '@/services/api';
 import ITask from '@/views/task/interfaces/ITask';
 import ITaskResponse from '@/views/task/interfaces/ITaskResponse';
-import { toISODateFormat, toISODatetimeFormat, toHumanDatetimeFormat } from '@/utils/DateHelper';
+import { toISODateFormat, toISODatetimeFormat, toHumanDatetimeFormat, toHumanDateFormat } from '@/utils/DateHelper';
 import useErrorHandler from '@/hooks/ErrorHandler';
 import arrayToJson from '@/utils/LinksHelper';
 import INote from './interfaces/INote';
@@ -242,7 +242,8 @@ export default defineComponent({
             errorHandler,
             task,
             searchTask,
-            toHumanDatetimeFormat
+            toHumanDatetimeFormat,
+            toHumanDateFormat
         };
     }
 })
