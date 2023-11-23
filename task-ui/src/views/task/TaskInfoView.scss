@@ -1,0 +1,61 @@
+header {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        margin: 1rem;
+    }
+}
+
+#task-info {
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+    div {
+        padding: 1rem;
+    }
+
+    p {
+        margin: .5rem
+    }
+}
+
+#task-form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+}
+
+#notes {
+    margin-top: 20px;
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: underline;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+}
+
+#date-hour {
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding: 1rem;
+
+    textarea {
+        height: 100px;
+        margin-bottom: 10px;
+    }
+}

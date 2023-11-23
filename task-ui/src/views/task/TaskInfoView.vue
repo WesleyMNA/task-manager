@@ -2,38 +2,77 @@
     <div>
         <header>
             <button type="button" @click="goToTasks">Go to tasks</button>
-        </header>
-        <form @submit.prevent="editTask">
             <button v-if="!editTaskMode" type="button" @click="editTaskMode = !editTaskMode">Edit</button>
-            <input v-if="editTaskMode" type="text" v-model="title" />
-            <h3 v-else>{{ title }}</h3>
-            <input v-if="editTaskMode" type="text" v-model="description" />
-            <p v-else>{{ description }}</p>
-            <input v-if="editTaskMode" type="text" v-model="status" />
-            <p v-else>{{ status }}</p>
-            <input v-if="editTaskMode" type="text" v-model="priority" />
-            <p v-else>{{ priority }}</p>
-            <input v-if="editTaskMode" type="text" v-model="initialDate" />
-            <p v-else>{{ initialDate }}</p>
-            <input v-if="editTaskMode" type="text" v-model="finalDate" />
-            <p v-else>{{ finalDate }}</p>
-            <button v-if="editTaskMode" type="submit">Edit</button>
-            <button v-if="editTaskMode" type="button" @click="editTaskMode = !editTaskMode">Cancel</button>
-        </form>
+        </header>
 
-        <h3>Notes</h3>
-        <div v-for="note in notes" :key="note.id">
-            <p>{{ toHumanDatetimeFormat(note.dateHour) }}</p>
-            <p>{{ note.text }}</p>
+        <div id="task-info" class="border">
+            <div>
+                <form id="task-form" class="border" @submit.prevent="editTask">
+                    <div class="input-group" v-if="editTaskMode">
+                        <label for="title">Title</label>
+                        <input class="input-field" type="text" v-model="title" name="title" />
+                    </div>
+                    <h3 v-else>{{ title }}</h3>
+                    <div class="input-group" v-if="editTaskMode">
+                        <label for="description">Description</label>
+                        <input class="input-field" type="text" v-model="description" name="description" />
+                    </div>
+                    <p v-else>{{ description }}</p>
+                    <div class="input-group" v-if="editTaskMode">
+                        <label for="priority">Priority</label>
+                        <select class="input-field" v-model="priority">
+                            <option value="LOW">Low</option>
+                            <option value="NORMAL">Normal</option>
+                            <option value="HIGH">High</option>
+                            <option value="URGENT">Urgent</option>
+                        </select>
+                    </div>
+                    <p v-else>Priority: {{ priority }}</p>
+                    <div class="input-group" v-if="editTaskMode">
+                        <label for="status">Status</label>
+                        <select class="input-field" v-model="status">
+                            <option value="TO_DO">To do</option>
+                            <option value="DOING">Doing</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="FINISHED">Finished</option>
+                        </select>
+                    </div>
+                    <p v-else>Status: {{ status }}</p>
+                    <div class="input-group" v-if="editTaskMode">
+                        <label for="initialDate">Initial Date</label>
+                        <input class="input-field" type="text" v-model="initialDate" name="initialDate" />
+                    </div>
+                    <p v-else>Initial date: {{ initialDate }}</p>
+                    <div class="input-group" v-if="editTaskMode">
+                        <label for="finalDate">Final Date</label>
+                        <input class="input-field" type="text" v-model="finalDate" name="finalDate" />
+                    </div>
+                    <p v-else>Final date: {{ finalDate }}</p>
+                    <div class="form-buttons" v-if="editTaskMode">
+                        <button type="submit">Edit</button>
+                        <button type="button" @click="editTaskMode = !editTaskMode">Cancel</button>
+                    </div>
+                </form>
+
+                <div id="notes" class="border">
+                    <h3>Notes</h3>
+                    <div class="border" v-for="note in notes" :key="note.id">
+                        <p id="date-hour">{{ toHumanDatetimeFormat(note.dateHour) }}</p>
+                        <p>{{ note.text }}</p>
+                    </div>
+
+                    <form class="border" @submit.prevent="addNote()">
+                        <textarea type="text" v-model="noteText" />
+                        <button type="submit">Add note</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <form @submit.prevent="addNote()">
-            <input type="text" v-model="noteText" />
-            <button type="submit">Add note</button>
-        </form>
     </div>
 </template>
 
 <script lang="ts">
+import './TaskInfoView.scss';
 import { defineComponent, ref } from 'vue';
 import { linksStore } from '@/stores/links';
 import api from '@/services/api';

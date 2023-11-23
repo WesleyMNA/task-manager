@@ -5,3 +5,12 @@
     width: 100%;
     text-align: center;
 }
+
+.input-group {
+    display: flex;
+    align-items: center;
+
+    label {
+        width: 10%;
+    }
+}
