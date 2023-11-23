@@ -3,7 +3,7 @@
         <div>
             <h3>{{ task.title }}</h3>
             <div id="info">
-                <p>{{ task.initialDate }}</p>
+                <p>{{ task.initialDate !== null ? toHumanDateFormat(task.initialDate) : '-' }}</p>
                 <p id="priority" :class="getPriorityColor">{{ task.priority }}</p>
             </div>
         </div>
@@ -15,6 +15,7 @@ import './TaskCard.scss';
 import { defineComponent } from 'vue';
 import ITask from '@/views/task/interfaces/ITask';
 import { TaskPriority } from '@/views/task/enums';
+import { toHumanDateFormat } from '@/utils/DateHelper'
 
 export default defineComponent({
     name: 'TaskCard',
@@ -36,6 +37,11 @@ export default defineComponent({
         task: {
             type: Object as () => ITask,
             required: true
+        }
+    },
+    setup() {
+        return {
+            toHumanDateFormat
         }
     }
 })

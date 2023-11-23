@@ -11,14 +11,14 @@
 
 #tasks-board {
     display: flex;
-    justify-content: space-between;
-    padding: 3.3rem 1.3rem 1rem 1.3rem;
+    justify-content: space-around;
+    padding: 3.3rem 1rem 0rem 1rem;
 }
 
 .tasks-card {
     border: 2px solid black;
     width: 24%;
-    height: 70vh;
+    height: 73vh;
 
     h2 {
         text-transform: uppercase;
