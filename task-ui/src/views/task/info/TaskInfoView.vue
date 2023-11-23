@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <header>
             <button type="button" @click="goToTasks">Go to tasks</button>
             <button v-if="!editTaskMode" type="button" @click="editTaskMode = !editTaskMode">Edit</button>
@@ -73,7 +73,7 @@
 
 <script lang="ts">
 import './TaskInfoView.scss';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import { linksStore } from '@/stores/links';
 import api from '@/services/api';
 import ITask from '@/views/task/interfaces/ITask';
@@ -81,8 +81,9 @@ import ITaskResponse from '@/views/task/interfaces/ITaskResponse';
 import { toISODateFormat, toISODatetimeFormat, toHumanDatetimeFormat, toHumanDateFormat } from '@/utils/DateHelper';
 import useErrorHandler from '@/hooks/ErrorHandler';
 import arrayToJson from '@/utils/LinksHelper';
-import INote from './interfaces/INote';
-import INoteRequest from './interfaces/INoteRequest';
+import INote from '@/views/task/interfaces/INote';
+import INoteResponse from '@/views/task/interfaces/INoteResponse';
+import INoteRequest from '@/views/task/interfaces/INoteRequest';
 import {
     NotificationType,
     notificate,
@@ -150,16 +151,7 @@ export default defineComponent({
                     this.task.finalDate = value;
                 }
             },
-        },
-        notes: {
-            get(): INote[] {
-                return this.task?.notes || [];
-            },
-            set(value: INote): void {
-                if (this.task)
-                    this.task.notes?.push(value);
-            },
-        },
+        }
     },
     data() {
         return {
@@ -216,23 +208,32 @@ export default defineComponent({
     setup(props) {
         const errorHandler = useErrorHandler();
         const task = ref<ITask>();
+        const notes = ref<INote[]>();
         const links = linksStore();
         const searchTask = () => {
             api
                 .get(props.url)
                 .then((response) => {
                     const taskData: ITaskResponse = response.data;
+                    const links = arrayToJson(taskData.links);
+                    const noteUrl = links['task-notes']
+                    api
+                        .get(noteUrl, { params: { sort: 'dateHour,asc' } })
+                        .then((response) => {
+                            var notesResponse: Array<INoteResponse> = response.data.content;
+                            notes.value = notesResponse.map(note => ({
+                                id: note.id,
+                                text: note.text,
+                                dateHour: toISODatetimeFormat(note.dateHour) || '',
+                                links: arrayToJson(note.links),
+                            }))
+                        })
+                        .catch((error) => errorHandler.handle(error));
                     task.value = {
                         ...taskData,
                         initialDate: toISODateFormat(taskData.initialDate),
                         finalDate: toISODateFormat(taskData.finalDate),
-                        links: arrayToJson(taskData.links),
-                        notes: taskData.notes?.map(note => ({
-                            id: note.id,
-                            text: note.text,
-                            dateHour: toISODatetimeFormat(note.dateHour) || '',
-                            links: arrayToJson(note.links),
-                        })) || []
+                        links: links
                     };
                 })
                 .catch((error) => errorHandler.handle(error));
@@ -241,6 +242,7 @@ export default defineComponent({
             links,
             errorHandler,
             task,
+            notes,
             searchTask,
             toHumanDatetimeFormat,
             toHumanDateFormat
