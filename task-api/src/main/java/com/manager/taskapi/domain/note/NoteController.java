@@ -3,7 +3,11 @@ package com.manager.taskapi.domain.note;
 import com.manager.taskapi.domain.note.dtos.NoteRequest;
 import com.manager.taskapi.domain.note.dtos.NoteResponse;
 import com.manager.taskapi.domain.note.services.NoteService;
+import com.manager.taskapi.domain.task.dtos.TaskResponse;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,6 +21,13 @@ import java.net.URI;
 public class NoteController {
 
     private final NoteService service;
+
+    @GetMapping
+    public ResponseEntity<PagedModel<NoteResponse>> findAll(@RequestParam @ParameterObject Long taskId,
+                                                            @ParameterObject Pageable pageable) {
+        PagedModel<NoteResponse> response = service.findAll(taskId, pageable);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping
     public ResponseEntity<NoteResponse> create(@RequestBody @Valid NoteRequest request,

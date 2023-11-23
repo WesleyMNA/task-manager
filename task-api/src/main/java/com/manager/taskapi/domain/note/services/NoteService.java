@@ -3,17 +3,23 @@ package com.manager.taskapi.domain.note.services;
 import com.manager.taskapi.config.handlers.exceptions.ForbiddenException;
 import com.manager.taskapi.config.handlers.exceptions.NotFoundException;
 import com.manager.taskapi.config.security.jwt.UserJwt;
-import com.manager.taskapi.domain.user.User;
-import com.manager.taskapi.domain.user.UserRepository;
 import com.manager.taskapi.domain.note.Note;
 import com.manager.taskapi.domain.note.NoteRepository;
+import com.manager.taskapi.domain.note.NoteSpecification;
 import com.manager.taskapi.domain.note.dtos.NoteRequest;
 import com.manager.taskapi.domain.note.dtos.NoteResponse;
 import com.manager.taskapi.domain.task.Task;
 import com.manager.taskapi.domain.task.TaskRepository;
+import com.manager.taskapi.domain.user.User;
+import com.manager.taskapi.domain.user.UserRepository;
 import com.manager.taskapi.utils.helpers.AuthHelper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,8 +32,17 @@ public class NoteService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
     private final NoteAssemblerModel assemblerModel;
+    private final PagedResourcesAssembler<Note> pagedAssembler;
     private final AuthHelper authHelper;
     private final ModelMapper mapper;
+
+    public PagedModel<NoteResponse> findAll(Long taskId, Pageable pageable) {
+        var specBuild = new NoteSpecification();
+        Specification<Note> spec = Specification.where(
+                specBuild.taskIdIfNotNull(taskId));
+        Page<Note> notes = noteRepository.findAll(spec, pageable);
+        return pagedAssembler.toModel(notes, assemblerModel);
+    }
 
     public NoteResponse create(NoteRequest request) {
         User client = findCurrentClient();
