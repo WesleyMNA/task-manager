@@ -63,16 +63,16 @@
                     <div class="note-card border" v-for="note in notes" :key="note.id">
                         <form @submit.prevent="editNote(note)">
                             <p class="date-hour">{{ toHumanDatetimeFormat(note.dateHour) }}</p>
-                            <textarea v-if="editNoteMode" type="text" v-model="note.text" />
+                            <textarea v-if="note.editMode" type="text" v-model="note.text" />
                             <p v-else>{{ note.text }}</p>
 
-                            <div class="form-buttons" v-if="editNoteMode">
+                            <div class="form-buttons" v-if="note.editMode">
                                 <button type="submit">Edit</button>
-                                <button type="button" @click="editNoteMode = false">Cancel</button>
+                                <button type="button" @click="note.editMode = false">Cancel</button>
                             </div>
                         </form>
                         <div>
-                            <button v-if="!editNoteMode" type="button" class="button" @click="editNoteMode = true">Edit</button>
+                            <button v-if="!note.editMode" type="button" class="button" @click="note.editMode = true">Edit</button>
                             <button type="button" class="button red" @click="deleteNote(note)">Delete</button>
                         </div>
                     </div>
@@ -172,7 +172,6 @@ export default defineComponent({
     data() {
         return {
             editTaskMode: false,
-            editNoteMode: false,
             noteText: ''
         }
     },
@@ -225,7 +224,7 @@ export default defineComponent({
                 .then(() => {
                     notificate('Note updated', NotificationType.SUCCESS);
                     this.searchTask();
-                    this.editNoteMode = false;
+                    note.editMode = false;
                 })
                 .catch((error) => this.errorHandler.handle(error));
         },
@@ -277,6 +276,7 @@ export default defineComponent({
                                 id: note.id,
                                 text: note.text,
                                 dateHour: toISODatetimeFormat(note.dateHour) || '',
+                                editMode: false,
                                 links: arrayToJson(note.links),
                             }))
                         })
