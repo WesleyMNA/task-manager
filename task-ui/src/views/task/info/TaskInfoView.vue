@@ -2,7 +2,11 @@
     <div>
         <header>
             <button type="button" @click="goToTasks">Go to tasks</button>
-            <button v-if="!editTaskMode" type="button" @click="editTaskMode = !editTaskMode">Edit</button>
+            <div>
+                <button v-if="!editTaskMode" type="button" class="button"
+                    @click="editTaskMode = !editTaskMode">Edit</button>
+                <button type="button" class="button red" @click="deleteTask">Delete</button>
+            </div>
         </header>
 
         <div id="task-info" class="border">
@@ -177,8 +181,22 @@ export default defineComponent({
                 })
                 .catch((error) => this.errorHandler.handle(error));
         },
+        deleteTask() {
+            const link = this.task?.links['delete-task'];
+
+            if (link === undefined)
+                throw new Error();
+
+            api
+                .delete(link)
+                .then(() => {
+                    notificate('Task deleted', NotificationType.SUCCESS);
+                    this.$router.push('/tasks');
+                })
+                .catch((error) => this.errorHandler.handle(error));
+        },
         editTask() {
-            const link = this.task?.links['update-task']
+            const link = this.task?.links['update-task'];
 
             if (link === undefined)
                 throw new Error();

@@ -11,7 +11,7 @@
             <input class="input-field" type="password" name="confirm-password" v-model="confirmPassword" placeholder="Confirm Password" />
             <div>
                 <button class="button green" type="submit">Sing Up</button>
-                <button class="button blue" @click="goToLogin">Already have an account?</button>
+                <button class="button blue" type="button" @click="goToLogin">Already have an account?</button>
             </div>
         </form>
     </div>
