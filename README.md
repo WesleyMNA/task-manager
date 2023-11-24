@@ -1,6 +1,6 @@
 # Task Manager
 
-Simples application inspired by Gitlab issue board for managing tasks.
+Simple application inspired by Gitlab issue board for managing tasks.
 
 ## task-api
 
