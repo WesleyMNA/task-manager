@@ -44,6 +44,6 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private Set<Note> notes = new HashSet<>();
 }

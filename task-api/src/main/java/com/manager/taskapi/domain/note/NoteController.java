@@ -2,6 +2,7 @@ package com.manager.taskapi.domain.note;
 
 import com.manager.taskapi.domain.note.dtos.NoteRequest;
 import com.manager.taskapi.domain.note.dtos.NoteResponse;
+import com.manager.taskapi.domain.note.dtos.UpdateNoteRequest;
 import com.manager.taskapi.domain.note.services.NoteService;
 import com.manager.taskapi.domain.task.dtos.TaskResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class NoteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id,
-                                       @RequestBody @Valid NoteRequest request) {
+                                       @RequestBody @Valid UpdateNoteRequest request) {
         service.update(id, request);
         return ResponseEntity
                 .noContent()

@@ -10,11 +10,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoteRequest {
+public class UpdateNoteRequest {
 
     @NotNull
     @NotBlank
     private String text;
-    @NotNull
-    private Long taskId;
 }

@@ -8,6 +8,7 @@ import com.manager.taskapi.domain.note.NoteRepository;
 import com.manager.taskapi.domain.note.NoteSpecification;
 import com.manager.taskapi.domain.note.dtos.NoteRequest;
 import com.manager.taskapi.domain.note.dtos.NoteResponse;
+import com.manager.taskapi.domain.note.dtos.UpdateNoteRequest;
 import com.manager.taskapi.domain.task.Task;
 import com.manager.taskapi.domain.task.TaskRepository;
 import com.manager.taskapi.domain.user.User;
@@ -55,7 +56,7 @@ public class NoteService {
         return assemblerModel.toModel(note);
     }
 
-    public void update(Long id, NoteRequest request) {
+    public void update(Long id, UpdateNoteRequest request) {
         Note note = validateNoteId(id);
         currentUserHasPermission(note);
         note.setText(request.getText());
