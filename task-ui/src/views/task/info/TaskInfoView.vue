@@ -46,12 +46,12 @@
                         <label for="initialDate">Initial Date</label>
                         <input class="input-field" type="text" v-model="initialDate" name="initialDate" />
                     </div>
-                    <p v-else>Initial date: {{ toHumanDateFormat(initialDate) }}</p>
+                    <p v-else>Initial date: {{ initialDate }}</p>
                     <div class="input-group" v-if="editTaskMode">
                         <label for="finalDate">Final Date</label>
                         <input class="input-field" type="text" v-model="finalDate" name="finalDate" />
                     </div>
-                    <p v-else>Final date: {{ toHumanDateFormat(finalDate) }}</p>
+                    <p v-else>Final date: {{ finalDate }}</p>
                     <div class="form-buttons" v-if="editTaskMode">
                         <button type="submit">Edit</button>
                         <button type="button" @click="editTaskMode = false">Cancel</button>
@@ -150,7 +150,7 @@ export default defineComponent({
         },
         initialDate: {
             get(): string {
-                return this.task?.initialDate || '';
+                return this.task?.initialDate ? toHumanDateFormat(this.task?.initialDate) : '-';
             },
             set(value: string): void {
                 if (this.task) {
@@ -160,7 +160,7 @@ export default defineComponent({
         },
         finalDate: {
             get(): string {
-                return this.task?.finalDate || '';
+                return this.task?.finalDate ? toHumanDateFormat(this.task?.finalDate) : '-';
             },
             set(value: string): void {
                 if (this.task) {
