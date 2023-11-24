@@ -296,8 +296,7 @@ export default defineComponent({
             task,
             notes,
             searchTask,
-            toHumanDatetimeFormat,
-            toHumanDateFormat
+            toHumanDatetimeFormat
         };
     }
 })
