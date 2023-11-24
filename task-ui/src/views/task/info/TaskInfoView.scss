@@ -47,7 +47,13 @@ header {
     }
 }
 
-#date-hour {
+.note-card {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.date-hour {
     font-weight: bold;
 }
 

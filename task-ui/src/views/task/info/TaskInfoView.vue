@@ -60,9 +60,12 @@
 
                 <div id="notes" class="border">
                     <h3>Notes</h3>
-                    <div class="border" v-for="note in notes" :key="note.id">
-                        <p id="date-hour">{{ toHumanDatetimeFormat(note.dateHour) }}</p>
-                        <p>{{ note.text }}</p>
+                    <div class="note-card border" v-for="note in notes" :key="note.id">
+                        <div>
+                            <p class="date-hour">{{ toHumanDatetimeFormat(note.dateHour) }}</p>
+                            <p>{{ note.text }}</p>
+                        </div>
+                        <button type="button" class="button red" @click="deleteNote(note)">Delete</button>
                     </div>
 
                     <form class="border" @submit.prevent="addNote()">
@@ -181,6 +184,16 @@ export default defineComponent({
                 })
                 .catch((error) => this.errorHandler.handle(error));
         },
+        deleteNote(note: INote) {
+            const link = note.links['delete-note']
+            api
+                .delete(link)
+                .then(() => {
+                    notificate('Note deleted', NotificationType.SUCCESS);
+                    this.searchTask();
+                })
+                .catch((error) => this.errorHandler.handle(error));
+        },
         deleteTask() {
             const link = this.task?.links['delete-task'];
 
@@ -191,7 +204,7 @@ export default defineComponent({
                 .delete(link)
                 .then(() => {
                     notificate('Task deleted', NotificationType.SUCCESS);
-                    this.$router.push('/tasks');
+                    this.goToTasks();
                 })
                 .catch((error) => this.errorHandler.handle(error));
         },

@@ -22,8 +22,8 @@
                 <input class="input-field" type="date" v-model="task.finalDate" name="final-date"
                     placeholder="Final Date" />
                 <div class="form-buttons">
-                    <button class="button green" type="submit">Add</button>
-                    <button class="button red" @click="cancelForm">Cancel</button>
+                    <button class="button" type="submit">Add</button>
+                    <button class="button red" type="button" @click="cancelForm">Cancel</button>
                 </div>
             </form>
         </div>
