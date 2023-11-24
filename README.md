@@ -1,6 +1,6 @@
 # Task Manager
 
-Simples application inspired by Gitlab issue board for managing tasks.
+Simple application inspired by Gitlab issue board for managing tasks.
 
 ## task-api
 
@@ -18,9 +18,9 @@ API build with functionalities to help people manage tasks.
 
 - Auth with JWT and Refresh Token;
 - CRUDs of:
-  - Clients;
   - Notes;
-  - Tasks.
+  - Tasks;
+  - Users.
 - Hateoas.
 
 ## task-ui
