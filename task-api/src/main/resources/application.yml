@@ -34,8 +34,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   hateoas:
     use-hal-as-default-json-media-type: false
-  liquibase:
-    enabled: false
     change-log: classpath:db/changelog/db.changelog-master.yaml
   output:
     ansi:
