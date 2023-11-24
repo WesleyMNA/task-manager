@@ -14,7 +14,7 @@ export default () : ErrorHandler => {
         console.log(error)
         const response: IErrorResponse = error.response.data;
 
-        if (response.status === 400) {
+        if (response.status === 400 || response.status === 401) {
             let message;
             let title = 'Erro';
 

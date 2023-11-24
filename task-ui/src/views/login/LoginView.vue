@@ -54,8 +54,8 @@ export default defineComponent({
     },
     data() {
         return {
-            email: 'user@email.com',
-            password: '12345',
+            email: '',
+            password: '',
         };
     },
     methods: {

@@ -4,6 +4,7 @@ package com.manager.taskapi.domain.auth.services;
 import com.manager.taskapi.domain.auth.AuthController;
 import com.manager.taskapi.domain.auth.dtos.AuthResponse;
 import com.manager.taskapi.domain.note.NoteController;
+import com.manager.taskapi.domain.note.dtos.NoteRequest;
 import com.manager.taskapi.domain.task.TaskController;
 import com.manager.taskapi.domain.task.dtos.TaskQuery;
 import com.manager.taskapi.domain.user.UserController;
@@ -30,7 +31,7 @@ public class AuthModelAssembler implements RepresentationModelAssembler<AuthResp
         // TaskController
         response.add(linkTo(methodOn(TaskController.class).findAll(new TaskQuery(null, null, null), page)).withRel("tasks"));
         // NoteController
-        response.add(linkTo(methodOn(NoteController.class).findAll(null, page)).withRel("notes"));
+        response.add(linkTo(methodOn(NoteController.class).create(new NoteRequest(), uriComponentsBuilder)).withRel("notes"));
         return response;
     }
 }
