@@ -4,7 +4,7 @@
             <button type="button" @click="goToTasks">Go to tasks</button>
             <div>
                 <button v-if="!editTaskMode" type="button" class="button"
-                    @click="editTaskMode = !editTaskMode">Edit</button>
+                    @click="editTaskMode = true">Edit</button>
                 <button type="button" class="button red" @click="deleteTask">Delete</button>
             </div>
         </header>
@@ -54,18 +54,27 @@
                     <p v-else>Final date: {{ toHumanDateFormat(finalDate) }}</p>
                     <div class="form-buttons" v-if="editTaskMode">
                         <button type="submit">Edit</button>
-                        <button type="button" @click="editTaskMode = !editTaskMode">Cancel</button>
+                        <button type="button" @click="editTaskMode = false">Cancel</button>
                     </div>
                 </form>
 
                 <div id="notes" class="border">
                     <h3>Notes</h3>
                     <div class="note-card border" v-for="note in notes" :key="note.id">
-                        <div>
+                        <form @submit.prevent="editNote(note)">
                             <p class="date-hour">{{ toHumanDatetimeFormat(note.dateHour) }}</p>
-                            <p>{{ note.text }}</p>
+                            <textarea v-if="editNoteMode" type="text" v-model="note.text" />
+                            <p v-else>{{ note.text }}</p>
+
+                            <div class="form-buttons" v-if="editNoteMode">
+                                <button type="submit">Edit</button>
+                                <button type="button" @click="editNoteMode = false">Cancel</button>
+                            </div>
+                        </form>
+                        <div>
+                            <button v-if="!editNoteMode" type="button" class="button" @click="editNoteMode = true">Edit</button>
+                            <button type="button" class="button red" @click="deleteNote(note)">Delete</button>
                         </div>
-                        <button type="button" class="button red" @click="deleteNote(note)">Delete</button>
                     </div>
 
                     <form class="border" @submit.prevent="addNote()">
@@ -163,6 +172,7 @@ export default defineComponent({
     data() {
         return {
             editTaskMode: false,
+            editNoteMode: false,
             noteText: ''
         }
     },
@@ -205,6 +215,17 @@ export default defineComponent({
                 .then(() => {
                     notificate('Task deleted', NotificationType.SUCCESS);
                     this.goToTasks();
+                })
+                .catch((error) => this.errorHandler.handle(error));
+        },
+        editNote(note: INote) {
+            const link = note.links['update-note']
+            api
+                .put(link, note)
+                .then(() => {
+                    notificate('Note updated', NotificationType.SUCCESS);
+                    this.searchTask();
+                    this.editNoteMode = false;
                 })
                 .catch((error) => this.errorHandler.handle(error));
         },

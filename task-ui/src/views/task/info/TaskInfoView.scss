@@ -51,6 +51,15 @@ header {
     display: flex;
     align-items: start;
     justify-content: space-between;
+
+    form {
+        width: 80%;
+    }
+
+    div {
+        display: flex;
+        gap: 20px;
+    }
 }
 
 .date-hour {
