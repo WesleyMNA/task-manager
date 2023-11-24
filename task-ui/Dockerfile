@@ -20,7 +20,7 @@ ENV VUE_APP_URL_BACKEND=/api/
 RUN npm run build
 RUN mv /app/dist /dist
 
-FROM nginx:alpine as production
+FROM nginx:1.25.3-alpine as production
 
 ENV TZ=America/Sao_Paulo
 ENV TIMEZONE=America/Sao_Paulo

@@ -1,22 +1,4 @@
-# Task Manager API
-
-API build with functionalities to help people manage tasks inspired by Gitlab Board.
-
-## Dependencies
-
-| Dependency  | Version |
-|-------------|---------|
-| Java        | 17      |
-| Spring Boot | 2.7.16  |
-
-## Functionalities
-
-- Auth with JWT and Refresh Token;
-- CRUDs of:
-  - Clients;
-  - Notes;
-  - Tasks.
-- Hateoas.
+# Task API
 
 ## Environment Variables
 
@@ -44,16 +26,4 @@ API build with functionalities to help people manage tasks inspired by Gitlab Bo
 |-----------|-----------------|
 | TIMEZONE  | API's timezone  |
 | LOG_LEVEL | API's log level |
-
-## Running the project
-
-1. Clone this repository and open it with an IDE as a Maven project, set up a PostgreSQL database to be used to store
-   data,
-   change the environment variable ``DB_HOST`` with the IP of the db and then run the method main inside
-   TaskApiApplication class;
-
-OR
-
-2. If you have Docker installed, run the command ``docker compose up -d --build`` to run the API and a database in
-   containers.  
 
