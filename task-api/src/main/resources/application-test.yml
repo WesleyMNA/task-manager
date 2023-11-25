@@ -27,8 +27,6 @@ spring:
       enabled: false
   hateoas:
     use-hal-as-default-json-media-type: false
-  liquibase:
-    enabled: false
 
 task-manager:
   auth:
