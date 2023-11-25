@@ -35,7 +35,6 @@ export default defineComponent({
         const auth = authStore();
         const links = linksStore();
         const loginLink = ref();
-        const refreshLink = ref();
         api
             .get('/')
             .then((response) => {
@@ -48,7 +47,6 @@ export default defineComponent({
             auth,
             links,
             loginLink,
-            refreshLink,
             errorHandler
         };
     },

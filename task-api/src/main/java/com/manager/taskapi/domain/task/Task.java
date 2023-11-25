@@ -45,5 +45,6 @@ public class Task {
     private User user;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<Note> notes = new HashSet<>();
 }
